@@ -902,7 +902,9 @@ function updDisplay(){
   document.getElementById("countNum").textContent=count.toLocaleString("he-IL");
   document.getElementById("celSub").textContent=count.toLocaleString("he-IL")+" לבנות זהב יחד";
 }
-function addStone(){
+ 
+ 
+  function addStone(){
   const btn = document.getElementById("addBtn");
   btn.classList.add("pulse"); 
   setTimeout(() => btn.classList.remove("pulse"), 450);
@@ -914,7 +916,7 @@ function addStone(){
   document.getElementById("cel").classList.add("show");
   document.getElementById("temple-image").src = "temple_final.jpg";
 }
-}
+
 
 function closeCel(){document.getElementById("cel").classList.remove("show");}
 let day=0;const done={};
