@@ -925,7 +925,7 @@ function tog(k){done[k]=!done[k];render();}
 function chDay(d){day+=d;render();}
 function openWA(){window.open("https://whatsapp.com/channel/0029VbCEdnf4yltRnYuMq509","_blank");}
 function shareApp(){
-  const msg="אבני התקווה 🕍✨\nכל מעשה טוב מוסיף לבנה בבית המקדש.\nכל יום — מעשה אחד. כל נשמה — אבן.\n👇\nhttps://aginsberger-cpu.github.io/AVNEI-TIKVA/avnei-tikva/";
+  const msg="אבני התקווה 🕍✨\nכל מעשה טוב מוסיף לבנה בבית המקדש.\nכל יום — מעשה אחד. כל נשמה — אבן. \n 👇 \n https://tikva.netivotny.org";
   if(navigator.share)navigator.share({title:"אבני התקווה",text:msg});
   else{navigator.clipboard.writeText(msg);alert("הועתק! שלח לחברים 💙");}
 }
