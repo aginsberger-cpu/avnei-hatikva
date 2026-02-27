@@ -902,13 +902,28 @@ function updDisplay(){
   document.getElementById("countNum").textContent=count.toLocaleString("he-IL");
   document.getElementById("celSub").textContent=count.toLocaleString("he-IL")+" לבנות זהב יחד";
 }
- 
- 
-  function addStone(){
+function addStone(){
   const btn = document.getElementById("addBtn");
+  if (!btn) return; // הגנה למקרה שהכפתור לא נמצא
+
   btn.classList.add("pulse"); 
   setTimeout(() => btn.classList.remove("pulse"), 450);
+
   count++; 
+  updDisplay(); 
+  saveCount(); 
+  if (typeof playWin === "function") playWin(); 
+  if (typeof burst === "function") burst();
+
+  const cel = document.getElementById("cel");
+  if (cel) cel.classList.add("show");
+
+  const templeImg = document.getElementById("temple-image");
+  if (templeImg) {
+    templeImg.src = "temple_final.jpg";
+  }
+}
+
   updDisplay(); 
   saveCount(); 
   playWin(); 
