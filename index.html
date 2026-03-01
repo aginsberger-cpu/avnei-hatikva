@@ -1,1 +1,495 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>אבני התקווה — אחדות עם ישראל 🇮🇱</title>
+<meta property="og:title" content="אבני התקווה — הכוח שלנו ביחד 🇮🇱">
+<meta property="og:description" content="מיזם לאחדות ואהבת חינם. כנסו, התחברו והפיצו את האור!">
+<meta property="og:url" content="https://tikva.netivotny.org">
+<meta property="og:image" content="https://tikva.netivotny.org/kotel.jpg">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold1:#c8960a; --gold2:#d4a020; --gold3:#e8b830; --gold4:#f5cc50; --gold5:#fde090; --gold6:#fff8e0;
+  --navy:#0f2147; --navy2:#1a3a6b;
+  --bg:#f5efe0; --bg2:#ede5d0; --bg3:#fdf8f0;
+  --text:#0f2147; --muted:rgba(15,33,71,0.65);
+  --brd:rgba(212,160,32,0.32); --brd2:rgba(212,160,32,0.58);
+  --shd:0 4px 28px rgba(212,160,32,0.16); --shd2:0 8px 48px rgba(15,33,71,0.12);
+}
+[data-theme="dark"] {
+  --bg:#0c0a06; --bg2:#141008; --bg3:#1c160a;
+  --text:#f0e8d0; --muted:rgba(220,185,110,0.72);
+  --brd:rgba(212,160,32,0.22); --brd2:rgba(212,160,32,0.45);
+  --shd:0 4px 28px rgba(0,0,0,0.55); --shd2:0 8px 48px rgba(0,0,0,0.7);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:17px;background:#f5efe0;}
+[data-theme="dark"] html{background:#0c0a06;}
+body{font-family:"Frank Ruhl Libre",serif;font-weight:400;color:var(--text);background:var(--bg);min-height:100vh;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 100% 55% at 50% 0%,rgba(232,184,48,0.09) 0%,transparent 65%),
+             radial-gradient(ellipse 50% 40% at 0% 100%,rgba(212,160,32,0.05) 0%,transparent 60%);}
+[data-theme="dark"] body::before{background:
+  radial-gradient(ellipse 80% 50% at 50% 0%,rgba(30,74,136,0.18) 0%,transparent 65%),
+  radial-gradient(ellipse 40% 30% at 15% 100%,rgba(184,134,11,0.08) 0%,transparent 60%);}
 
+@keyframes shimmer{0%{background-position:0% center;}100%{background-position:300% center;}}
+@keyframes floatUp{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+@keyframes sparkle{0%,100%{opacity:0;transform:scale(0.4);}50%{opacity:1;transform:scale(1.3);}}
+@keyframes shofarPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
+@keyframes btnPulse{0%{transform:scale(1);}40%{transform:scale(0.97);}100%{transform:scale(1);}}
+
+#canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.sparkle-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.sp{position:absolute;border-radius:50%;background:rgba(212,160,32,0.5);animation:sparkle var(--dur,3s) ease-in-out infinite var(--delay,0s);}
+[data-theme="dark"] .sp{background:rgba(232,184,48,0.38);}
+.app{position:relative;z-index:1;max-width:480px;margin:0 auto;padding-bottom:80px;}
+
+/* THEME TOGGLE */
+.theme-toggle{position:fixed;top:14px;left:14px;z-index:100;background:var(--bg3);border:1px solid var(--brd2);border-radius:50px;padding:7px 14px;display:flex;align-items:center;gap:6px;cursor:pointer;box-shadow:var(--shd);font-family:"Frank Ruhl Libre",serif;font-size:0.72rem;font-weight:700;color:var(--gold2);letter-spacing:0.05em;transition:all 0.3s;}
+.theme-toggle:hover{border-color:var(--gold3);}
+
+/* FLAG */
+.flag{position:fixed;top:14px;right:14px;z-index:20;}
+.flag-img{width:36px;height:24px;border-radius:3px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.18);}
+
+/* GOLD DIVIDER */
+.gold-divider{display:flex;align-items:center;gap:10px;padding:0 28px;margin:28px 0;}
+.gold-divider::before,.gold-divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--brd2),transparent);}
+.gd-center{display:flex;align-items:center;gap:5px;}
+.gd{background:var(--gold3);transform:rotate(45deg);}
+.gd.lg{width:6px;height:6px;opacity:0.55;}
+.gd.md{width:4px;height:4px;opacity:0.3;}
+.gd.sm{width:2px;height:2px;opacity:0.15;}
+
+/* HERO */
+.hero{padding:100px 28px 48px;text-align:center;position:relative;}
+.hero::before{content:"";display:block;width:60px;height:1px;margin:0 auto 40px;background:linear-gradient(90deg,transparent,var(--gold3),transparent);}
+.crown-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:28px;}
+.crown-row::before,.crown-row::after{content:"";flex:1;height:1px;max-width:110px;background:linear-gradient(90deg,transparent,var(--brd2),transparent);}
+.cr-d{background:var(--gold3);transform:rotate(45deg);}
+.cr-d.lg{width:7px;height:7px;opacity:0.55;}
+.cr-d.md{width:4px;height:4px;opacity:0.3;}
+.cr-d.sm{width:2px;height:2px;opacity:0.15;}
+
+.hero-title{font-family:"Frank Ruhl Libre",serif;font-weight:900;font-size:4.8rem;line-height:1.0;letter-spacing:0.02em;margin-bottom:8px;animation:floatUp 6s ease-in-out infinite;}
+.hero-title .w1{background:linear-gradient(135deg,var(--gold6),var(--gold5),var(--gold4),var(--gold3),var(--gold2),var(--gold4),var(--gold6));background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3.5s linear infinite;filter:drop-shadow(0 0 22px rgba(212,160,32,0.45));}
+.hero-title .w2{background:linear-gradient(135deg,var(--gold5),var(--gold4),var(--gold3),var(--gold2),var(--gold3),var(--gold5));background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3.5s linear infinite 0.5s;filter:drop-shadow(0 0 16px rgba(212,160,32,0.4));}
+.hero-title .w3{background:linear-gradient(135deg,var(--gold6),var(--gold5),var(--gold4),var(--gold3),var(--gold2),var(--gold4),var(--gold6));background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3.5s linear infinite reverse;filter:drop-shadow(0 0 22px rgba(212,160,32,0.45));}
+
+.title-rule{display:flex;align-items:center;justify-content:center;gap:8px;margin:12px auto 16px;width:fit-content;}
+.title-rule::before,.title-rule::after{content:"";width:55px;height:1px;}
+.title-rule::before{background:linear-gradient(90deg,transparent,var(--brd2));}
+.title-rule::after{background:linear-gradient(90deg,var(--brd2),transparent);}
+.tr-gem{width:5px;height:5px;background:var(--gold3);transform:rotate(45deg);opacity:0.6;}
+
+.title-sub{font-size:0.6rem;letter-spacing:0.52em;text-transform:uppercase;color:var(--gold2);opacity:0.65;margin-bottom:36px;font-family:"Frank Ruhl Libre",serif;font-weight:600;}
+
+.hero-text{font-size:1.18rem;line-height:2.6;max-width:400px;margin:0 auto;font-family:"Frank Ruhl Libre",serif;font-weight:400;}
+.ht-gold{font-size:1.55rem;font-weight:800;line-height:1.65;background:linear-gradient(135deg,var(--gold3),var(--gold2),var(--gold3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ht-bold{font-size:1.82rem;font-weight:900;color:var(--text);line-height:1.5;}
+.ht-navy{font-size:1.15rem;font-weight:700;color:var(--navy2);}
+[data-theme="dark"] .ht-bold{color:#f0e8d0;}
+[data-theme="dark"] .ht-navy{color:#8ab0e0;}
+
+/* KOTEL */
+.kotel-wrap{position:relative;width:100%;height:72vw;max-height:400px;min-height:240px;cursor:pointer;overflow:hidden;border-top:1px solid var(--brd2);border-bottom:1px solid var(--brd2);}
+.kotel-wrap::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;z-index:3;background:linear-gradient(90deg,transparent,var(--gold4),transparent);}
+.kotel-wrap::after{content:"";position:absolute;bottom:0;left:0;right:0;height:1px;z-index:3;background:linear-gradient(90deg,transparent,var(--gold4),transparent);}
+.kotel-img{width:100%;height:100%;object-fit:cover;object-position:center 38%;transition:transform 0.7s ease;}
+.kotel-wrap:active .kotel-img{transform:scale(1.03);}
+.kotel-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,3,0,0.20) 0%,rgba(5,3,0,0.06) 35%,rgba(5,3,0,0.84) 100%);}
+.kotel-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 24px 30px;text-align:center;}
+.kotel-pasuk1{font-family:"Frank Ruhl Libre",serif;font-weight:900;font-size:1.95rem;letter-spacing:0.06em;line-height:1.35;background:linear-gradient(135deg,#fffbe8,var(--gold5),var(--gold4),var(--gold5),#fffbe8);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite;filter:drop-shadow(0 0 22px rgba(232,184,48,0.98)) drop-shadow(0 3px 10px rgba(0,0,0,0.99));margin-bottom:4px;}
+.kotel-pasuk2{font-family:"Frank Ruhl Libre",serif;font-weight:700;font-size:1.28rem;letter-spacing:0.07em;background:linear-gradient(135deg,var(--gold5),var(--gold4),var(--gold5));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite reverse;filter:drop-shadow(0 0 15px rgba(232,184,48,0.95)) drop-shadow(0 2px 8px rgba(0,0,0,0.98));margin-bottom:16px;}
+.kotel-divider{color:rgba(245,204,80,0.92);font-size:0.95rem;margin-bottom:14px;filter:drop-shadow(0 0 8px rgba(232,184,48,0.8));}
+.kotel-cta{display:flex;align-items:center;gap:9px;font-family:"Frank Ruhl Libre",serif;font-size:0.93rem;font-weight:600;color:rgba(255,245,200,0.97);letter-spacing:0.04em;text-shadow:0 1px 12px rgba(0,0,0,0.98),0 0 24px rgba(232,184,48,0.2);}
+.shofar-icon{font-size:1.15rem;animation:shofarPulse 1.8s ease-in-out infinite;display:inline-block;filter:drop-shadow(0 0 6px rgba(232,184,48,0.7));}
+
+/* SECTION TITLE */
+.section-title{font-size:0.94rem;font-weight:700;color:var(--text);margin:0 18px 16px;display:flex;align-items:center;gap:10px;font-family:"Frank Ruhl Libre",serif;letter-spacing:0.05em;}
+.section-title::before{content:"✦";color:var(--gold2);font-size:0.55rem;opacity:0.7;}
+.section-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--brd2),transparent);}
+
+/* TASKS */
+.tasks-wrap{margin:0 16px;}
+.day-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.day-nav-btn{background:var(--bg3);border:1px solid var(--brd2);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold2);font-size:1.1rem;box-shadow:var(--shd);transition:all 0.2s;}
+.day-nav-btn:hover{background:var(--gold2);color:#fff;}
+.day-center{text-align:center;}
+#dayLbl{font-size:0.95rem;font-weight:700;color:var(--text);font-family:"Frank Ruhl Libre",serif;}
+#dateLbl{font-size:0.7rem;color:var(--muted);margin-top:2px;}
+.progress-bar{background:var(--bg2);border-radius:99px;height:3px;margin-bottom:18px;overflow:hidden;border:1px solid var(--brd);}
+#progFill{height:100%;background:linear-gradient(90deg,var(--gold2),var(--gold4));border-radius:99px;transition:width 0.5s;}
+.tcard{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;margin-bottom:12px;overflow:hidden;box-shadow:var(--shd);transition:all 0.3s;}
+.tcard::before{content:"";display:block;height:1px;background:linear-gradient(90deg,transparent,var(--brd2),transparent);}
+.tcard.completed{border-color:var(--brd2);}
+.tcard-inner{padding:18px;display:flex;gap:12px;align-items:flex-start;}
+.tcard-body{flex:1;}
+.t-label{font-size:0.72rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold2);font-weight:700;margin-bottom:6px;font-family:"Frank Ruhl Libre",serif;}
+.t-title{font-size:1.08rem;font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.45;font-family:"Frank Ruhl Libre",serif;}
+.t-desc{font-size:0.92rem;color:var(--muted);line-height:2.0;margin-bottom:14px;font-family:"Frank Ruhl Libre",serif;}
+.t-btn{background:var(--bg2);border:1px solid var(--brd2);border-radius:8px;padding:9px 18px;font-family:"Frank Ruhl Libre",serif;font-size:0.87rem;font-weight:700;color:var(--gold2);cursor:pointer;transition:all 0.2s;letter-spacing:0.04em;}
+.t-btn:hover{background:var(--gold2);color:#fff;border-color:var(--gold2);}
+
+/* PRINCIPLES */
+.principles-wrap{margin:0 16px 28px;}
+.principle{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--brd);}
+.principle:last-child{border-bottom:none;}
+.p-body{flex:1;}
+.p-title{font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:5px;font-family:"Frank Ruhl Libre",serif;}
+.p-desc{font-size:0.92rem;color:var(--muted);line-height:2.0;font-family:"Frank Ruhl Libre",serif;}
+
+/* RULES */
+.rules-wrap{margin:0 16px 28px;}
+.rules-box{background:var(--bg3);border:1px solid var(--brd2);border-radius:18px;padding:22px 18px;box-shadow:var(--shd),0 0 0 1px rgba(232,184,48,0.1) inset;position:relative;overflow:hidden;}
+.rules-box::before{content:"";position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--gold3),transparent);}
+.rules-title{font-size:1.0rem;font-weight:800;color:var(--text);margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--brd);font-family:"Frank Ruhl Libre",serif;letter-spacing:0.03em;}
+.rule{display:flex;gap:12px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--brd);}
+.rule:last-child{border-bottom:none;}
+.r-ico{width:20px;color:var(--gold2);font-size:0.78rem;flex-shrink:0;margin-top:3px;opacity:0.6;}
+.r-head{font-size:0.97rem;font-weight:800;color:var(--text);margin-bottom:4px;font-family:"Frank Ruhl Libre",serif;}
+.r-sub{font-size:0.88rem;color:var(--muted);line-height:2.0;font-family:"Frank Ruhl Libre",serif;}
+
+/* STONES */
+.stones-section{margin:0 16px;}
+.stones-eyebrow{text-align:center;font-family:"Frank Ruhl Libre",serif;font-size:0.88rem;font-weight:700;color:var(--gold2);letter-spacing:0.1em;margin-bottom:18px;}
+.counter-frame{border:1px solid var(--brd2);border-radius:20px;padding:28px 22px 22px;text-align:center;background:var(--bg3);box-shadow:var(--shd),0 0 0 1px rgba(232,184,48,0.1) inset;position:relative;overflow:hidden;margin-bottom:14px;}
+.counter-frame::before{content:"";position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--gold3),transparent);}
+.counter-eyebrow{font-size:0.64rem;letter-spacing:0.38em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;font-weight:700;font-family:"Frank Ruhl Libre",serif;}
+.counter-number{font-family:"Frank Ruhl Libre",serif;font-weight:900;font-size:5.2rem;line-height:1;letter-spacing:-0.02em;background:linear-gradient(135deg,var(--gold5),var(--gold4),var(--gold3),var(--gold2),var(--gold3),var(--gold5));background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite;filter:drop-shadow(0 0 16px rgba(212,160,32,0.45));}
+.counter-caption{font-size:0.82rem;color:var(--muted);margin-top:8px;font-family:"Frank Ruhl Libre",serif;font-weight:500;}
+
+.btn-stone{width:100%;padding:20px 22px;background:linear-gradient(135deg,var(--gold5),var(--gold4),var(--gold3),var(--gold2),var(--gold3),var(--gold5));background-size:300% auto;animation:shimmer 4s linear infinite;border:none;border-radius:14px;font-family:"Frank Ruhl Libre",serif;font-size:1.1rem;font-weight:800;color:#2a1500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 24px rgba(212,160,32,0.38),0 1px 0 rgba(255,255,255,0.28) inset;transition:transform 0.25s,box-shadow 0.25s;position:relative;overflow:hidden;letter-spacing:0.03em;margin-bottom:10px;}
+.btn-stone:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,160,32,0.52);}
+.btn-stone:active{transform:translateY(0);}
+.btn-stone.pulse{animation:btnPulse 0.4s ease;}
+
+.btn-wa{width:100%;padding:15px 22px;background:linear-gradient(135deg,#2ecc71,#25D366,#1da851);border:none;border-radius:14px;font-family:"Frank Ruhl Libre",serif;font-size:0.97rem;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 20px rgba(37,211,102,0.28);transition:transform 0.25s,box-shadow 0.25s;letter-spacing:0.03em;}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,0.44);}
+
+/* GRAND CLOSING */
+.grand-closing{margin:32px 16px 0;padding:36px 22px 52px;background:var(--bg3);border:1px solid var(--brd2);border-radius:24px;box-shadow:var(--shd2),0 0 0 1px rgba(232,184,48,0.12) inset;text-align:center;position:relative;overflow:hidden;}
+.grand-closing::before{content:"";position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--gold3),transparent);}
+.grand-closing::after{content:"";position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--gold3),transparent);}
+.gc-orn{display:flex;align-items:center;gap:8px;margin-bottom:28px;}
+.gc-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--brd2),transparent);}
+.gc-gems{display:flex;align-items:center;gap:5px;}
+.gc-gem{background:var(--gold3);transform:rotate(45deg);}
+.gc-gem.lg{width:6px;height:6px;opacity:0.58;}
+.gc-gem.md{width:4px;height:4px;opacity:0.3;}
+.gc-gem.sm{width:2px;height:2px;opacity:0.15;}
+.gc-eyebrow{font-size:0.64rem;letter-spacing:0.36em;text-transform:uppercase;color:var(--gold2);font-weight:700;margin-bottom:12px;font-family:"Frank Ruhl Libre",serif;}
+.gc-title{font-family:"Frank Ruhl Libre",serif;font-weight:700;font-size:2.15rem;line-height:1.35;margin-bottom:28px;letter-spacing:0.02em;}
+.gc-gold{background:linear-gradient(135deg,var(--gold5),var(--gold4),var(--gold3),var(--gold2),var(--gold3),var(--gold5));background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite;}
+.gc-italic{font-style:italic;color:var(--muted);font-size:1.38rem;font-weight:500;display:block;}
+.gc-reasons{text-align:right;margin-bottom:28px;}
+.gc-reason{padding:13px 0;border-bottom:1px solid var(--brd);}
+.gc-reason:last-child{border-bottom:none;}
+.gc-rtitle{font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:5px;font-family:"Frank Ruhl Libre",serif;}
+.gc-rdesc{font-size:0.92rem;color:var(--muted);line-height:2.0;font-family:"Frank Ruhl Libre",serif;}
+.gc-pasuk-frame{background:linear-gradient(135deg,rgba(245,204,80,0.07),rgba(212,160,32,0.03));border:1px solid var(--brd2);border-radius:16px;padding:26px 20px;margin-bottom:24px;position:relative;overflow:hidden;box-shadow:0 2px 20px rgba(212,160,32,0.1);}
+.gc-pasuk-frame::before{content:"";position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--gold3),transparent);}
+.gc-pasuk-bizkut{font-size:0.82rem;font-weight:700;color:var(--gold2);letter-spacing:0.22em;font-family:"Frank Ruhl Libre",serif;margin-bottom:10px;}
+.gc-pasuk-text{font-size:1.32rem;font-weight:700;font-family:"Frank Ruhl Libre",serif;background:linear-gradient(135deg,var(--gold5),var(--gold4),var(--gold3),var(--gold2),var(--gold3),var(--gold5));background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite;line-height:2.0;margin-bottom:10px;letter-spacing:0.02em;}
+.gc-pasuk-when{font-size:0.9rem;font-weight:700;color:var(--gold2);letter-spacing:0.15em;font-family:"Frank Ruhl Libre",serif;}
+.gc-btn-main{width:100%;padding:19px 22px;background:linear-gradient(135deg,var(--gold5),var(--gold4),var(--gold3),var(--gold2),var(--gold3),var(--gold5));background-size:300% auto;animation:shimmer 4s linear infinite;border:none;border-radius:14px;font-family:"Frank Ruhl Libre",serif;font-size:1.02rem;font-weight:800;color:#2a1500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 22px rgba(212,160,32,0.38);transition:transform 0.25s,box-shadow 0.25s;margin-bottom:10px;letter-spacing:0.03em;}
+.gc-btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,160,32,0.52);}
+.gc-btn-share{width:100%;padding:13px;background:transparent;border:1px solid var(--brd2);border-radius:12px;font-family:"Frank Ruhl Libre",serif;font-size:0.86rem;font-weight:600;color:var(--gold2);cursor:pointer;transition:all 0.2s;margin-bottom:30px;letter-spacing:0.04em;}
+.gc-btn-share:hover{border-color:var(--gold3);color:var(--gold3);}
+.gc-seal{text-align:center;}
+.gc-seal-flag{font-size:2rem;margin-bottom:7px;}
+.gc-seal-words{font-size:0.9rem;font-weight:700;font-family:"Frank Ruhl Libre",serif;background:linear-gradient(90deg,var(--gold3),var(--gold4),var(--gold3));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 5s linear infinite;}
+
+/* CELEBRATION */
+.cel{position:fixed;inset:0;z-index:200;background:rgba(4,2,0,0.92);backdrop-filter:blur(14px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.35s;}
+.cel.show{opacity:1;pointer-events:all;}
+.cel-img{width:100%;max-width:320px;border-radius:16px;border:1px solid rgba(212,160,32,0.5);box-shadow:0 0 40px rgba(212,160,32,0.48);margin-bottom:20px;}
+.cel-title{font-family:"Frank Ruhl Libre",serif;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--gold5),var(--gold4),var(--gold3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;text-align:center;}
+.cel-sub{font-size:0.95rem;color:rgba(245,204,80,0.85);margin-bottom:26px;text-align:center;font-family:"Frank Ruhl Libre",serif;}
+.cel-close{background:linear-gradient(135deg,var(--gold5),var(--gold4),var(--gold3),var(--gold2));color:#2a1500;border:none;border-radius:12px;padding:14px 36px;font-family:"Frank Ruhl Libre",serif;font-size:0.97rem;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(212,160,32,0.48);letter-spacing:0.04em;}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:99px;}
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()">
+  <span id="themeIcon">🌙</span>
+  <span id="themeLbl">מצב כהה</span>
+</button>
+
+<canvas id="canvas"></canvas>
+<div class="sparkle-field" id="sparkleField"></div>
+
+<div class="flag">
+  <div class="flag-img">
+    <svg viewBox="0 0 40 26" xmlns="http://www.w3.org/2000/svg">
+      <rect width="40" height="26" fill="#fff"/>
+      <rect width="40" height="4" y="3" fill="#003399"/>
+      <rect width="40" height="4" y="19" fill="#003399"/>
+      <polygon points="20,9 23.46,14 17.54,14" fill="none" stroke="#003399" stroke-width="1.4"/>
+      <polygon points="20,17 23.46,12 17.54,12" fill="none" stroke="#003399" stroke-width="1.4"/>
+    </svg>
+  </div>
+</div>
+
+<div class="app">
+
+<!-- HERO TITLE -->
+<div class="hero">
+  <div class="crown-row">
+    <div class="cr-d sm"></div><div class="cr-d md"></div><div class="cr-d lg"></div><div class="cr-d md"></div><div class="cr-d sm"></div>
+  </div>
+  <h1 class="hero-title">
+    <span class="w1">אבני</span> <span class="w2">ה</span><span class="w3">תקווה</span>
+  </h1>
+  <div class="title-rule"><div class="tr-gem"></div></div>
+  <div class="title-sub">Avnei HaTikva &nbsp;·&nbsp; Stones of Hope</div>
+  <p class="hero-text">
+    <span class="ht-gold">לאהוב ולא לשפוט — זו המשימה.</span><br>
+    <span class="ht-bold">לאהוב כל יהודי — זו המהפכה.</span><br>
+    <span class="ht-navy">לא דתי. לא חילוני.<br>עם ישראל — יחד. 🇮🇱</span>
+  </p>
+</div>
+
+<!-- KOTEL + SHOFAR -->
+<div class="kotel-wrap" onclick="playShofar()">
+  <img src="kotel.jpg" alt="הכותל המערבי" class="kotel-img">
+  <div class="kotel-overlay"></div>
+  <div class="kotel-content">
+    <div class="kotel-pasuk1">קוּמִי אוֹרִי כִּי בָא אוֹרֵךְ</div>
+    <div class="kotel-pasuk2">הַזְּמַן הוּא עַכְשָׁיו</div>
+    <div class="kotel-divider">✦</div>
+    <div class="kotel-cta" id="shofar-hint">
+      <span class="shofar-icon">🎺</span>
+      גַּם אַתָּה יָכוֹל לִהְיוֹת שׁוּתָּף לַגְּאֻלָּה
+    </div>
+  </div>
+</div>
+
+<!-- DIVIDER -->
+<div class="gold-divider"><div class="gd-center"><div class="gd sm"></div><div class="gd md"></div><div class="gd lg"></div><div class="gd md"></div><div class="gd sm"></div></div></div>
+
+<!-- TASKS -->
+<div class="section-title">משימות היום</div>
+<div class="tasks-wrap">
+  <div class="day-nav">
+    <button class="day-nav-btn" onclick="chDay(-1)">›</button>
+    <div class="day-center"><div id="dayLbl">היום</div><div id="dateLbl"></div></div>
+    <button class="day-nav-btn" onclick="chDay(1)">‹</button>
+  </div>
+  <div class="progress-bar"><div id="progFill" style="width:0%"></div></div>
+  <div id="tasks"></div>
+</div>
+
+<!-- DIVIDER -->
+<div class="gold-divider" style="margin-top:36px;"><div class="gd-center"><div class="gd sm"></div><div class="gd md"></div><div class="gd lg"></div><div class="gd md"></div><div class="gd sm"></div></div></div>
+
+<!-- PRINCIPLES -->
+<div class="section-title">אבני הבסיס</div>
+<div class="principles-wrap">
+  <div class="principle"><div class="p-body"><div class="p-title">אהב את חברך כמוך</div><div class="p-desc">זה הכלל הגדול בתורה. לא כסיסמה — כבחירה יומיומית לראות בכל אדם צלם אלוקים, גם כשקשה.</div></div></div>
+  <div class="principle"><div class="p-body"><div class="p-title">חפש שלום ורדפהו</div><div class="p-desc">לא לחכות שהשלום יבוא — לצאת לחפש אותו. לפנות אל מי שרחוק, לפשר, לגשר.</div></div></div>
+  <div class="principle"><div class="p-body"><div class="p-title">ראה את הטוב בכל אחד</div><div class="p-desc">כל אדם נושא ניצוץ אלוקי. כשמחפשים את הטוב — מוצאים אותו. זה לא תמימות — זה בחירה.</div></div></div>
+  <div class="principle"><div class="p-body"><div class="p-title">כל מעשה חסד — לבנה שלמה</div><div class="p-desc">מעשה קטן מבחוץ יכול להיות ענק מבפנים. כל עזרה, כל נדיבות — בונה ממשית.</div></div></div>
+  <div class="principle"><div class="p-body"><div class="p-title">אנחנו דור הגאולה</div><div class="p-desc">לא במקרה נולדנו בזמן הזה. כל נשמה שמתעוררת מקרבת את האור.</div></div></div>
+</div>
+
+<!-- DIVIDER -->
+<div class="gold-divider"><div class="gd-center"><div class="gd sm"></div><div class="gd md"></div><div class="gd lg"></div><div class="gd md"></div><div class="gd sm"></div></div></div>
+
+<!-- RULES -->
+<div class="section-title">חוקי הקבוצה</div>
+<div class="rules-wrap">
+  <div class="rules-box">
+    <div class="rules-title">✦ &nbsp; חוקי הקבוצה — חובה לקרוא</div>
+    <div class="rule"><div class="r-ico">✦</div><div><div class="r-head">אין שיימינג — אין להעביר הלאה</div><div class="r-sub">מה שנאמר בקבוצה נשאר בקבוצה. אין לצלם, לשמור, להעביר — גם לא לחבר הכי טוב.</div></div></div>
+    <div class="rule"><div class="r-ico">◇</div><div><div class="r-head">אין להעליב ואין לפגוע</div><div class="r-sub">כבוד האדם קדוש. אין הודעות שמשפילות, מבזות, מלעיגות — לא ישירות, לא בעקיפין.</div></div></div>
+    <div class="rule"><div class="r-ico">⊘</div><div><div class="r-head">אין לייאש ולהוריד</div><div class="r-sub">אין הודעות שמורידות, מכבות, מייאשות. הקבוצה בנויה להרים ולחזק — לא להוריד.</div></div></div>
+    <div class="rule"><div class="r-ico">◉</div><div><div class="r-head">אל תגיב להודעות לא יפות</div><div class="r-sub">אם הגיעה הודעה שאינה ראויה — אל תגיב, אל תלחץ לייק. דווח למנהל ותתעלם.</div></div></div>
+    <div class="rule"><div class="r-ico">♡</div><div><div class="r-head">רק מה שבונה ומאחד</div><div class="r-sub">לפני שליחה — שאל: "האם המילים האלה מקרבות לבבות?" אם כן — שלח בשמחה.</div></div></div>
+  </div>
+</div>
+
+<!-- DIVIDER -->
+<div class="gold-divider"><div class="gd-center"><div class="gd sm"></div><div class="gd md"></div><div class="gd lg"></div><div class="gd md"></div><div class="gd sm"></div></div></div>
+
+<!-- STONES + ADD -->
+<div class="stones-section">
+  <div class="stones-eyebrow">✦ &nbsp; גַּם אַתָּה יָכוֹל לִהְיוֹת חֵלֶק מִן הַגְּאֻלָּה &nbsp; ✦</div>
+  <div class="counter-frame">
+    <div class="counter-eyebrow">אבנות בבית המקדש</div>
+    <div class="counter-number" id="countNum">0</div>
+    <div class="counter-caption">נשמות שבחרו לבנות יחד</div>
+  </div>
+  <button class="btn-stone" id="addBtn" onclick="addStone()">
+    <span>🪨</span><span>הוסף אבן לבית המקדש</span>
+  </button>
+  <button class="btn-wa" onclick="shareApp()">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    שלח לחבר בוואטסאפ ✦
+  </button>
+</div>
+
+<!-- DIVIDER -->
+<div class="gold-divider" style="margin-top:32px;"><div class="gd-center"><div class="gd sm"></div><div class="gd md"></div><div class="gd lg"></div><div class="gd md"></div><div class="gd sm"></div></div></div>
+
+<!-- GRAND CLOSING -->
+<div class="grand-closing">
+  <div class="gc-orn">
+    <div class="gc-line"></div>
+    <div class="gc-gems"><div class="gc-gem sm"></div><div class="gc-gem md"></div><div class="gc-gem lg"></div><div class="gc-gem md"></div><div class="gc-gem sm"></div></div>
+    <div class="gc-line"></div>
+  </div>
+  <div class="gc-eyebrow">הגיע הרגע שלך</div>
+  <h2 class="gc-title">
+    <span class="gc-gold">הגאולה לא מחכה לנסים —</span><br>
+    <span class="gc-italic">היא מחכה לנו</span>
+  </h2>
+  <div class="gc-reasons">
+    <div class="gc-reason"><div class="gc-rtitle">אתה כבר שייך</div><div class="gc-rdesc">לא צריך להיות מושלם — מספיק שאתה רוצה להיות חלק מהעם.</div></div>
+    <div class="gc-reason"><div class="gc-rtitle">הגאולה קרובה ממש</div><div class="gc-rdesc">כל לבנה שמתווספת מקרבת. אתה — ממש אתה — חלק מהסיפור הכי גדול שהיה.</div></div>
+    <div class="gc-reason"><div class="gc-rtitle">מעשה אחד ביום</div><div class="gc-rdesc">פעולה קטנה אחת כל יום — ובשנה בנית 365 לבנות. דמיין מה זה יחד.</div></div>
+  </div>
+  <div class="gc-pasuk-frame">
+    <div class="gc-pasuk-bizkut">✦ &nbsp; בִּזְכוּתְךָ &nbsp; ✦</div>
+    <div class="gc-pasuk-text">״וְהִתְגַּדַּלְתִּי וְהִתְקַדַּשְׁתִּי<br>וְנוֹדַעְתִּי לְעֵינֵי גּוֹיִם רַבִּים״</div>
+    <div class="gc-pasuk-when">בְּקָרוֹב מַמָּשׁ מַמָּשׁ ✦</div>
+  </div>
+  <button class="gc-btn-main" onclick="openWA()">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    הצטרף לאבני התקווה
+  </button>
+  <button class="gc-btn-share" onclick="shareApp()">שלח לחבר שאתה רוצה לראות שם ✦</button>
+  <div class="gc-seal">
+    <div class="gc-seal-flag">🇮🇱</div>
+    <div class="gc-seal-words">עם ישראל חי — לעולם ועד</div>
+  </div>
+</div>
+
+</div>
+
+<!-- CELEBRATION -->
+<div class="cel" id="cel">
+  <img src="temple_final.jpg" class="cel-img" alt="בית המקדש">
+  <div class="cel-title">לבנה נוספה לבניין ✦</div>
+  <div class="cel-sub" id="celSub">יחד אנחנו בונים</div>
+  <button class="cel-close" onclick="closeCel()">המשך לבנות ✦</button>
+</div>
+
+<script>
+const cvs=document.getElementById("canvas"),ctx=cvs.getContext("2d");
+cvs.width=innerWidth;cvs.height=innerHeight;
+window.addEventListener("resize",()=>{cvs.width=innerWidth;cvs.height=innerHeight;});
+function P(){this.x=this.y=this.vx=this.vy=0;this.s=1;this.o=1;this.d=0.012;this.life=1;this.gold=true;}
+const pts=[];
+function loop(){
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  for(let i=pts.length-1;i>=0;i--){
+    const p=pts[i];
+    p.x+=p.vx;p.y+=p.vy;p.vy+=0.055;p.o-=p.d;p.life-=p.d;
+    if(p.life<=0){pts.splice(i,1);continue;}
+    ctx.save();ctx.globalAlpha=Math.max(0,p.o);
+    ctx.fillStyle=p.gold?"rgba(232,184,48,0.75)":"rgba(245,204,80,0.6)";
+    ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,Math.PI*2);ctx.fill();ctx.restore();
+  }
+  requestAnimationFrame(loop);
+}
+loop();
+function burst(){
+  const btn=document.getElementById("addBtn");if(!btn)return;
+  const r=btn.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  for(let i=0;i<40;i++){
+    setTimeout(()=>{
+      const p=new P();
+      p.x=cx+(Math.random()-.5)*100;p.y=cy;
+      p.vy=-Math.random()*4.2-1;p.vx=(Math.random()-.5)*6;
+      p.s=Math.random()*2.8+0.6;p.o=0.95;p.d=0.011;p.life=1;p.gold=Math.random()>0.3;
+      pts.push(p);
+    },i*14);
+  }
+}
+function playShofar(){
+  try{
+    const a=new Audio("SHOFAR.mp3");a.volume=1.0;a.play();
+    const h=document.getElementById("shofar-hint");
+    if(h){
+      h.innerHTML='<span class="shofar-icon">🎺</span> הַשּׁוֹפָר מְנַגֵּן...';
+      setTimeout(()=>{h.innerHTML='<span class="shofar-icon">🎺</span> גַּם אַתָּה יָכוֹל לִהְיוֹת שׁוּתָּף לַגְּאֻלָּה';},3500);
+    }
+  }catch(e){}
+}
+function playWin(){try{const a=new Audio("SHOFAR.mp3");a.volume=1.0;a.play();}catch(e){}}
+let count=12651;
+const KEY="avnei_hatikva_v9";
+function loadCount(){const s=localStorage.getItem(KEY);if(s)count=Math.max(12651,parseInt(s)||12651);updDisplay();}
+function saveCount(){localStorage.setItem(KEY,count);}
+function updDisplay(){
+  const el=document.getElementById("countNum");if(el)el.textContent=count.toLocaleString("he-IL");
+  const sub=document.getElementById("celSub");if(sub)sub.textContent=count.toLocaleString("he-IL")+" לבנות זהב יחד";
+}
+function addStone(){
+  const btn=document.getElementById("addBtn");if(!btn)return;
+  btn.classList.add("pulse");setTimeout(()=>btn.classList.remove("pulse"),450);
+  count++;updDisplay();saveCount();playWin();burst();
+  const cel=document.getElementById("cel");if(cel)cel.classList.add("show");
+}
+function closeCel(){const c=document.getElementById("cel");if(c)c.classList.remove("show");}
+let day=0;const done={};
+const tasks=[
+  {do:{e:"🤝",l:"מעשה אחדות",t:"פנה לאחד שלא דיברת איתו",d:"שלח הודעה פשוטה: 'חשבתי עליך היום.' שתי מילים יכולות לבנות גשר שלם."},soft:{e:"🌱",l:"עבודת הלב",t:"שמור מקום לאחר לדבר",d:"כשמישהו מדבר — תן לו לסיים עד הסוף. להקשיב באמת זה אחד ממעשי האהבה הגדולים."}},
+  {do:{e:"😊",l:"מעשה אחדות",t:"חייך היום — בכוונה",d:"לאיש זר, לחנווני, למישהו ברחוב. חיוך אמיתי שיוצא מהעיניים שווה יותר מדברים גדולים."},soft:{e:"🕊️",l:"עבודת הלב",t:"ויתר על צדקתך פעם אחת",d:"יש ויכוח שאתה יכול לנצח. תחליט לוותר — לא מחולשה אלא מכוח. הקשר חשוב יותר."}},
+  {do:{e:"🌟",l:"מעשה אחדות",t:"מצא ניצוץ אצל מישהו שקשה לך איתו",d:"בחר אדם שמאתגר אותך. מצא בו דבר אחד שאתה מעריך — ותגיד לו."},soft:{e:"💬",l:"עבודת הלב",t:"שמור לשונך לחיים בלבד",d:"לפני כל הודעה — שאל: האם המילים האלה מביאות חיים? שלח רק את אלה."}},
+  {do:{e:"🫂",l:"מעשה אחדות",t:"גע בלב של מישהו",d:"מחמאה, הודיה, זיכרון משותף — שתף אחד היום עם מישהו קרוב."},soft:{e:"🔥",l:"עבודת הלב",t:"הוסף אור — לא חום",d:"כשמישהו מדליק אותך לטובה — שתף אותו. כשמישהו מכעיס — תנשום לפני שמגיב."}},
+  {do:{e:"🕯️",l:"מעשה אחדות",t:"עשה טוב בלי שיראו",d:"עזור למישהו בצורה שאף אחד לא ידע. המעשה הטהור ביותר הוא זה שלא מחפש עדים."},soft:{e:"🤍",l:"עבודת הלב",t:"אהב גם את מי שקשה",d:"בחר אדם שקשה לאהוב — ועשה בשבילו מעשה אחד. לא צריך להרגיש — צריך לבחור."}},
+  {do:{e:"🏗️",l:"מעשה אחדות",t:"בנה משהו עם מישהו",d:"עשה דבר אחד יחד עם מישהו שהיית לבד לפני — שיחה, פרויקט, ארוחה."},soft:{e:"🌊",l:"עבודת הלב",t:"שחרר טינה אחת",d:"יש מישהו שאתה נושא כלפיו טינה. לא לשחרר אותה בשבילו — בשבילך."}},
+  {do:{e:"💡",l:"מעשה אחדות",t:"שתף ידע שיעזור לאחר",d:"שתף דבר שלמדת עם מישהו שיכול להרוויח ממנו היום."},soft:{e:"🙏",l:"עבודת הלב",t:"תן תודה אמיתית",d:"תגיד לאדם אחד היום בדיוק מה הוא נתן לך ואיך זה שינה אותך."}}
+];
+function fmtDate(o){const d=new Date();d.setDate(d.getDate()+o);return d.toLocaleDateString("he-IL",{weekday:"long",day:"numeric",month:"long"});}
+function dayLblStr(o){if(o===0)return"היום";if(o===1)return"מחר";if(o===-1)return"אתמול";return o>0?`בעוד ${o} ימים`:`לפני ${Math.abs(o)} ימים`;}
+function tIdx(o){const d=new Date();d.setDate(d.getDate()+o);const n=Math.floor((d-new Date(d.getFullYear(),0,0))/864e5);return((n%tasks.length)+tasks.length)%tasks.length;}
+function updProg(){const k="d"+day,n=(done[k+"_do"]?1:0)+(done[k+"_soft"]?1:0);const el=document.getElementById("progFill");if(el)el.style.width=(n*50)+"%";}
+function render(){
+  const k="d"+day,t=tasks[tIdx(day)];
+  const dl=document.getElementById("dayLbl"),dlt=document.getElementById("dateLbl");
+  if(dl)dl.textContent=dayLblStr(day);if(dlt)dlt.textContent=fmtDate(day);
+  const dd=!!done[k+"_do"],sd=!!done[k+"_soft"];
+  const tc=document.getElementById("tasks");
+  if(tc)tc.innerHTML=
+    `<div class="tcard ${dd?"completed":""}"><div class="tcard-inner"><div class="tcard-body"><div class="t-label">${t.do.l}</div><div class="t-title">${t.do.e} ${t.do.t}</div><div class="t-desc">${t.do.d}</div><button class="t-btn" onclick="tog('${k}_do')">${dd?"✓ עשיתי זאת":"סמן כבוצע"}</button></div></div></div>`+
+    `<div class="tcard ${sd?"completed":""}"><div class="tcard-inner"><div class="tcard-body"><div class="t-label">${t.soft.l}</div><div class="t-title">${t.soft.e} ${t.soft.t}</div><div class="t-desc">${t.soft.d}</div><button class="t-btn" onclick="tog('${k}_soft')">${sd?"✓ לקחתי על עצמי":"קיבלתי על עצמי"}</button></div></div></div>`;
+  updProg();
+}
+function tog(k){done[k]=!done[k];render();}
+function chDay(d){day+=d;render();}
+function openWA(){window.open("https://whatsapp.com/channel/0029VbCEdnf4yltRnYuMq509","_blank");}
+function shareApp(){
+  const msg="אבני התקווה 🕍✨\nכל מעשה טוב מוסיף לבנה בבית המקדש.\nכל יום — מעשה אחד. כל נשמה — אבן.\n👇\nhttps://tikva.netivotny.org";
+  if(navigator.share)navigator.share({title:"אבני התקווה",text:msg,url:"https://tikva.netivotny.org"});
+  else{navigator.clipboard.writeText(msg);alert("הועתק! שלח לחברים 💙");}
+}
+function toggleTheme(){
+  const html=document.documentElement,isDark=html.getAttribute("data-theme")==="dark";
+  html.setAttribute("data-theme",isDark?"light":"dark");
+  document.getElementById("themeIcon").textContent=isDark?"🌙":"☀️";
+  document.getElementById("themeLbl").textContent=isDark?"מצב כהה":"מצב פנינה";
+}
+(function(){
+  const f=document.getElementById("sparkleField");
+  for(let i=0;i<32;i++){
+    const s=document.createElement("div"),sz=1+Math.random()*3;
+    s.className="sp";
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;--dur:${2.5+Math.random()*4}s;--delay:${Math.random()*6}s;`;
+    f.appendChild(s);
+  }
+})();
+loadCount();render();
+</script>
+</body>
+</html>
