@@ -325,7 +325,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="stones-eyebrow">✦ &nbsp; גַּם אַתָּה יָכוֹל לִהְיוֹת חֵלֶק מִן הַגְּאֻלָּה &nbsp; ✦</div>
   <div class="counter-frame">
     <div class="counter-eyebrow">אבנות בבית המקדש</div>
-    <div class="counter-number" id="countNum">0</div>
+    <div class="counter-number" id="countNum">...</div>
     <div class="counter-caption">נשמות שבחרו לבנות יחד</div>
   </div>
   <button class="btn-stone" id="addBtn" onclick="addStone()">
@@ -383,7 +383,60 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   <button class="cel-close" onclick="closeCel()">המשך לבנות ✦</button>
 </div>
 
+<!-- ==================== FIREBASE + SCRIPT ==================== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, onSnapshot, updateDoc, increment, setDoc, getDoc }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ===== הגדרות Firebase =====
+const firebaseConfig = {
+  apiKey: "AIzaSyCKE0sjDnfVyTn2yUAZ5_oxO3oGx9Q9rH0",
+  authDomain: "hope-stones.firebaseapp.com",
+  projectId: "hope-stones",
+  storageBucket: "hope-stones.firebasestorage.app",
+  messagingSenderId: "840637838352",
+  appId: "1:840637838352:web:79ae499fe4fbae846f0695",
+  measurementId: "G-S4CJGVPD6W"
+};
+// ===========================
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+const stoneRef = doc(db, "counter", "stones");
+
+// וודא שהמסמך קיים עם ערך התחלתי
+getDoc(stoneRef).then(snap => {
+  if (!snap.exists()) {
+    setDoc(stoneRef, { count: 12651 });
+  }
+});
+
+// האזנה בזמן אמת — כל מי שפותח את האפליקציה רואה את אותו מספר
+onSnapshot(stoneRef, (snap) => {
+  if (snap.exists()) {
+    const count = snap.data().count || 0;
+    const el = document.getElementById("countNum");
+    if (el) el.textContent = count.toLocaleString("he-IL");
+    const sub = document.getElementById("celSub");
+    if (sub) sub.textContent = count.toLocaleString("he-IL") + " לבנות זהב יחד";
+  }
+});
+
+// הוספת אבן — מעלה ב-1 אצל כולם בזמן אמת
+window.addStone = function() {
+  const btn = document.getElementById("addBtn");
+  if (btn) { btn.classList.add("pulse"); setTimeout(() => btn.classList.remove("pulse"), 450); }
+  updateDoc(stoneRef, { count: increment(1) });
+  window.playWin();
+  window.burst();
+  const cel = document.getElementById("cel");
+  if (cel) cel.classList.add("show");
+};
+</script>
+
 <script>
+// ===== Canvas particles =====
 const cvs=document.getElementById("canvas"),ctx=cvs.getContext("2d");
 cvs.width=innerWidth;cvs.height=innerHeight;
 window.addEventListener("resize",()=>{cvs.width=innerWidth;cvs.height=innerHeight;});
@@ -402,7 +455,8 @@ function loop(){
   requestAnimationFrame(loop);
 }
 loop();
-function burst(){
+
+window.burst = function(){
   const btn=document.getElementById("addBtn");if(!btn)return;
   const r=btn.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
   for(let i=0;i<40;i++){
@@ -414,7 +468,8 @@ function burst(){
       pts.push(p);
     },i*14);
   }
-}
+};
+
 function playShofar(){
   try{
     const a=new Audio("SHOFAR.mp3");a.volume=1.0;a.play();
@@ -425,22 +480,12 @@ function playShofar(){
     }
   }catch(e){}
 }
-function playWin(){try{const a=new Audio("SHOFAR.mp3");a.volume=1.0;a.play();}catch(e){}}
-let count=12651;
-const KEY="avnei_hatikva_v9";
-function loadCount(){const s=localStorage.getItem(KEY);if(s)count=Math.max(12651,parseInt(s)||12651);updDisplay();}
-function saveCount(){localStorage.setItem(KEY,count);}
-function updDisplay(){
-  const el=document.getElementById("countNum");if(el)el.textContent=count.toLocaleString("he-IL");
-  const sub=document.getElementById("celSub");if(sub)sub.textContent=count.toLocaleString("he-IL")+" לבנות זהב יחד";
-}
-function addStone(){
-  const btn=document.getElementById("addBtn");if(!btn)return;
-  btn.classList.add("pulse");setTimeout(()=>btn.classList.remove("pulse"),450);
-  count++;updDisplay();saveCount();playWin();burst();
-  const cel=document.getElementById("cel");if(cel)cel.classList.add("show");
-}
+
+window.playWin = function(){try{const a=new Audio("SHOFAR.mp3");a.volume=1.0;a.play();}catch(e){}};
+
 function closeCel(){const c=document.getElementById("cel");if(c)c.classList.remove("show");}
+
+// ===== Tasks =====
 let day=0;const done={};
 const tasks=[
   {do:{e:"🤝",l:"מעשה אחדות",t:"פנה לאחד שלא דיברת איתו",d:"שלח הודעה פשוטה: 'חשבתי עליך היום.' שתי מילים יכולות לבנות גשר שלם."},soft:{e:"🌱",l:"עבודת הלב",t:"שמור מקום לאחר לדבר",d:"כשמישהו מדבר — תן לו לסיים עד הסוף. להקשיב באמת זה אחד ממעשי האהבה הגדולים."}},
@@ -489,7 +534,7 @@ function toggleTheme(){
     f.appendChild(s);
   }
 })();
-loadCount();render();
+render();
 </script>
 </body>
 </html>
