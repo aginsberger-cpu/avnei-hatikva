@@ -245,7 +245,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 </div>
 
 <div class="kotel-wrap" onclick="playShofar()">
-  <img src="kotel.jpg" alt="The Western Wall" class="kotel-img">
+  <img src="https://tikva.netivotny.org/kotel.jpg" alt="The Western Wall" class="kotel-img">
   <div class="kotel-overlay"></div>
   <div class="kotel-content">
     <div class="kotel-pasuk1">Arise, shine, for your light has come</div>
@@ -351,7 +351,7 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
 </div>
 
 <div class="cel" id="cel">
-  <img src="temple_final.jpg" class="cel-img" alt="The Holy Temple">
+  <img src="https://tikva.netivotny.org/temple_final.jpg" class="cel-img" alt="The Holy Temple">
   <div class="cel-title">A stone has been added ✦</div>
   <div class="cel-sub" id="celSub">Together we are building</div>
   <button class="cel-close" onclick="closeCel()">Keep building ✦</button>
@@ -437,7 +437,7 @@ window.burst = function(){
 
 function playShofar(){
   try{
-    const a=new Audio("SHOFAR.mp3");a.volume=1.0;a.play();
+    const a=new Audio("https://tikva.netivotny.org/SHOFAR.mp3");a.volume=1.0;a.play();
     const h=document.getElementById("shofar-hint");
     if(h){
       h.innerHTML='<span class="shofar-icon">🎺</span> The Shofar is sounding...';
@@ -446,7 +446,7 @@ function playShofar(){
   }catch(e){}
 }
 
-window.playWin = function(){try{const a=new Audio("SHOFAR.mp3");a.volume=1.0;a.play();}catch(e){}};
+window.playWin = function(){try{const a=new Audio("https://tikva.netivotny.org/SHOFAR.mp3");a.volume=1.0;a.play();}catch(e){}};
 
 function closeCel(){const c=document.getElementById("cel");if(c)c.classList.remove("show");}
 
